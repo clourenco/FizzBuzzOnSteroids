@@ -19,12 +19,12 @@ namespace FizzBuzzOnSteroids
 
 		private const string Integer = "integer";
 
+		private static int luckyCounter;
+
 		private static int integerCounter;
 
 		static void Main(string[] args)
 		{
-			integerCounter = 0;
-
 			//Step 1 use case
 			//args = new string[] { "2", "16" };
 
@@ -37,6 +37,10 @@ namespace FizzBuzzOnSteroids
 			//Step 3 use case
 			args = new string[] { "1", "20" };
 
+			luckyCounter = 0;
+			integerCounter = 0;
+
+
 
 
 			//---------------------------------------------------------------------------------------------------
@@ -46,6 +50,7 @@ namespace FizzBuzzOnSteroids
 			//	Console.WriteLine("The lower bound of the range is invalid.");
 			//}
 			//---------------------------------------------------------------------------------------------------
+
 
 
 
@@ -74,7 +79,7 @@ namespace FizzBuzzOnSteroids
 
 			for (int i = min; i <= max; i++)
 			{
-				output = RunChecks(stepOne, i);
+				output = RunCheckForFizzBuzz(stepOne, i);
 
 				sOut.AppendFormat("{0} ", output);
 			}
@@ -87,7 +92,7 @@ namespace FizzBuzzOnSteroids
 
 			for (int i = min; i <= max; i++)
 			{
-				output = RunChecks(stepTwo, i);
+				output = RunCheckForFizzBuzz(stepTwo, i);
 				output = RunCheckForNumberThree(output, stepTwo, i);
 
 				sOut.AppendFormat("{0} ", output);
@@ -101,61 +106,71 @@ namespace FizzBuzzOnSteroids
 
 			for (int i = min; i <= max; i++)
 			{
-				output = RunChecks(stepThree, i);
+				output = RunCheckForFizzBuzz(stepThree, i);
 				output = RunCheckForNumberThree(output, stepThree, i);
 				
 				sOut.AppendFormat("{0} ", output);
 			}
 
-			sOut.AppendFormat("\n {0} ", RunReport(stepThree));
+			sOut.AppendFormat("\n{0} ", RunReport(stepThree));
 		}
 
 		private static string RunReport(IStepThree stepThree)
 		{
 			StringBuilder report = new StringBuilder();
-			
+
 			report.AppendFormat("{0}: {1}   ", Fizz, stepThree.FizzCounter);
 			report.AppendFormat("{0}: {1}   ", Buzz, stepThree.BuzzCounter);
 			report.AppendFormat("{0}: {1}   ", FizzBuzz, stepThree.FizzBuzzCounter);
-			report.AppendFormat("{0}: {1}   ", Lucky, stepThree.LuckyCounter);
+			report.AppendFormat("{0}: {1}   ", Lucky, luckyCounter);
 			report.AppendFormat("{0}: {1}   ", Integer, integerCounter);
 
 			return report.ToString();
 		}
 
-		private static string RunCheckForNumberThree(string output, IStepTwo stepTwo, int val)
+		private static string RunCheckForNumberThree(string output, IStepTwo step, int val)
 		{
-			if (stepTwo.HasNumberThree(val))
+			if (step.HasNumberThree(val))
 			{
 				output = Lucky;
+				IncrementLuckyCounter();
 			}
 
 			return output;
 		}
 
-		private static string RunChecks(IStep stepOne, int i)
+		private static string RunCheckForFizzBuzz(IStep step, int val)
 		{
 			string output;
 
-			if (stepOne.CheckFizzBuzz(i))
+			if (step.CheckFizzBuzz(val))
 			{
 				output = FizzBuzz;
 			}
-			else if (stepOne.CheckBuzz(i))
+			else if (step.CheckBuzz(val))
 			{
 				output = Buzz;
 			}
-			else if (stepOne.CheckFizz(i))
+			else if (step.CheckFizz(val))
 			{
 				output = Fizz;
 			}
 			else
 			{
-				output = i.ToString();
-				IncrementIntegerCounter();
+				output = val.ToString();
+
+				if (step is IStepThree && !((IStepThree)step).HasNumberThree(val))
+				{
+					IncrementIntegerCounter();
+				}
 			}
 
 			return output;
+		}
+
+		private static void IncrementLuckyCounter()
+		{
+			luckyCounter++;
 		}
 
 		private static void IncrementIntegerCounter()

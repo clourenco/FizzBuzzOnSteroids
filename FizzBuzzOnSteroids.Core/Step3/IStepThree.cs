@@ -4,7 +4,7 @@ namespace FizzBuzzOnSteroids.Core.Step3
 {
 	public interface IStepThree : IStepTwo
 	{
-		int LuckyCounter { get; }
+		//int LuckyCounter { get; }
 
 		int FizzCounter { get; }
 

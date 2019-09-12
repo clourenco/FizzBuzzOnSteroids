@@ -2,7 +2,7 @@
 {
 	public class StepThree : IStepThree
 	{
-		private int luckyCounter;
+		//private int luckyCounter;
 
 		private int fizzCounter;
 
@@ -15,7 +15,7 @@
 		/// </summary>
 		public StepThree()
 		{
-			luckyCounter = 0;
+			//luckyCounter = 0;
 			fizzCounter = 0;
 			buzzCounter = 0;
 			fizzBuzzCounter = 0;
@@ -24,7 +24,7 @@
 		/// <summary>
 		/// 
 		/// </summary>
-		public int LuckyCounter => luckyCounter;
+		//public int LuckyCounter => luckyCounter;
 
 		/// <summary>
 		/// 
@@ -48,13 +48,7 @@
 		/// <returns></returns>
 		public bool HasNumberThree(int val)
 		{
-			if (val.ToString().Contains("3"))
-			{
-				IncrementLuckyCounter();
-				return true;
-			}
-
-			return false;
+			return val.ToString().Contains("3");
 		}
 
 		/// <summary>
@@ -64,7 +58,7 @@
 		/// <returns></returns>
 		public bool CheckFizz(int val)
 		{
-			if (IsMultipleOf(val, 3) && !HasNumberThree(val))
+			if (!HasNumberThree(val) && IsMultipleOf(val, 3))
 			{
 				IncrementFizzCounter();
 				return true;
@@ -116,10 +110,10 @@
 			return val % multiple == 0;
 		}
 
-		private void IncrementLuckyCounter()
-		{
-			luckyCounter++;
-		}
+		//private void IncrementLuckyCounter()
+		//{
+		//	luckyCounter++;
+		//}
 
 		private void IncrementFizzCounter()
 		{
